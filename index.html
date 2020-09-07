@@ -3,15 +3,15 @@
 <title>Fight!</title>
 <body>
 <!-- Import the Ga game engine files -->
-<script src="ga.js"></script>
-<script src="plugins.js"></script>
+<script src="/ga-master/ga.js"></script>
+<script src="/ga-master/plugins.js"></script>
 <script>
 
 //All of your game code will go here
 var g = ga(
   512, 512, setup,
   [
-    "sounds/chimes.wav"
+    "ga-master/tutorials/sounds/explosion.mp3"
   ]
 );
 
@@ -29,7 +29,7 @@ function setup(){
 g.backgroundColor = "yellow";
 
 //setting up assets
-a = g.sound("sounds/chimes.wav");
+a = g.sound("ga-master/tutorials/sounds/explosion.mp3");
 
 
 //make a game scene
