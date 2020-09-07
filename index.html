@@ -46,7 +46,7 @@ gameScene = g.group();
     gameScene.addChild(b);
 
 //food sprite
-c=g.circle(30,"blue")
+c=g.circle(40,"blue")
 do{
 x1=g.randomInt(0,g.canvas.width - c.width)
 y1=g.randomInt(0,g.canvas.height - c.height)
@@ -76,23 +76,23 @@ gameOverScene.visible = false;
   //Left arrow key `press` method
   g.key.leftArrow.press = function() {
     //Change the b's velocity when the key is pressed
-    b.vx = -5;
+    b.vx = -4;
     b.vy = 0;
   };
   //Left arrow key `release` method
  
   g.key.upArrow.press = function() {
-    b.vy = -5;
+    b.vy = -4;
     b.vx = 0;
   };
   
   g.key.rightArrow.press = function() {
-    b.vx = 5;
+    b.vx = 4;
     b.vy = 0;
   };
   
   g.key.downArrow.press = function() {
-    b.vy = 5;
+    b.vy = 4;
     b.vx = 0;
   };
   
