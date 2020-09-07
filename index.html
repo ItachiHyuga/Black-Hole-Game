@@ -1,0 +1,115 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Fight!</title>
+<body>
+<!-- Import the Ga game engine files -->
+<script src="ga.js"></script>
+<script src="plugins.js"></script>
+<script>
+
+//All of your game code will go here
+var g = ga(
+  512, 512, setup,
+  [
+    "sounds/chimes.wav"
+  ]
+);
+
+//Start the Ga engine.
+g.start();
+
+//declare all variables
+var a,b,c,message,collisions,gameover,x1,y1;
+
+//setup 
+function setup(){
+
+    //game board
+    g.canvas.style.border = "1px #211814 solid";
+g.backgroundColor = "yellow";
+
+//setting up assets
+a = g.sound("sounds/chimes.wav");
+
+
+//make a game scene
+gameScene = g.group();
+
+//make sprites
+
+//player sprite
+ b = g.rectangle(
+  40, 40,
+  "orange");
+    b.x=50;
+    b.y=g.canvas.height / 2 - b.halfHeight;
+    gameScene.addChild(b);
+
+//food sprite
+c=g.circle(30,"blue")
+do{
+x1=g.randomInt(0,g.canvas.width - c.width)
+y1=g.randomInt(0,g.canvas.height - c.height)
+}while(  x1>(b.x+c.width) & x1<(b.x+b.width) || y1>(b.y+b.height) & y1<(b.y+c.height)  )
+
+c.x=x1
+c.y=y1
+c.type=1;
+c.number=1;
+
+gameScene.addChild(c);
+
+//end screen
+message = g.text("Bas kardo! Kitna khaoge? -_-", "20px Futura", "black", 20, 20);
+message.x = 120;
+message.y = g.canvas.height / 2 - 64;
+
+//end scene
+gameOverScene = g.group(message);
+gameOverScene.visible = false;
+g.fourKeyController(b, 5, 38, 39, 40, 37);
+
+g.state = play;
+}
+
+function play() {
+    g.move(b);
+    gameover=g.contain(b, g.stage.localBounds);
+    if (gameover === "top" || gameover === "bottom"|| gameover === "right"|| gameover === "left") {
+        g.state = end;
+        message.content = "You lost nooooooooooooob!";
+       
+}
+
+    collision=g.hit(b,c)
+    if(c.number==40){
+        g.state = end;
+        message.content = "You won! But at what cost?";
+    }
+    if(collision){
+        a.play();
+        c.number+=1
+        
+        console.log(c.number)
+        do{
+x1=g.randomInt(0,g.canvas.width - c.width)
+y1=g.randomInt(0,g.canvas.height - c.height)
+}while(  x1>(b.x+c.width) & x1<(b.x+b.width) || y1>(b.y+b.height) & y1<(b.y+c.height)  )
+c.x=x1
+c.y=y1
+        b.width+=10
+        b.height+=10
+    }
+    else{
+        g.backgroundColor = "yellow";
+    }
+
+}
+
+function end() {
+  gameScene.visible = false;
+  gameOverScene.visible = true;
+}
+
+</script>
+</body>
