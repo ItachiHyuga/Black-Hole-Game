@@ -67,7 +67,35 @@ message.y = g.canvas.height / 2 - 64;
 //end scene
 gameOverScene = g.group(message);
 gameOverScene.visible = false;
-g.fourKeyController(b, 5, 38, 39, 40, 37);
+//g.fourKeyController(b, 5, 38, 39, 40, 37);
+
+
+
+  //You can also do it the long way, like this:
+  
+  //Left arrow key `press` method
+  g.key.leftArrow.press = function() {
+    //Change the b's velocity when the key is pressed
+    b.vx = -5;
+    b.vy = 0;
+  };
+  //Left arrow key `release` method
+ 
+  g.key.upArrow.press = function() {
+    b.vy = -5;
+    b.vx = 0;
+  };
+  
+  g.key.rightArrow.press = function() {
+    b.vx = 5;
+    b.vy = 0;
+  };
+  
+  g.key.downArrow.press = function() {
+    b.vy = 5;
+    b.vx = 0;
+  };
+  
 
 g.state = play;
 }
