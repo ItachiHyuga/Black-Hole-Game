@@ -12,7 +12,8 @@
     var g = ga(
       1000, 512, setup,
       [
-        "ga-master/tutorials/sounds/explosion.mp3"
+        "ga-master/tutorials/sounds/explosion.mp3",
+        "ga-master/examples/images/sky.jpg"
       ]
     );
 
@@ -20,7 +21,7 @@
     g.start();
 
     //declare all variables
-    var a, b, c, message, collisions, gameover, x1, y1,e, ee;
+    var a, b, c, message, collisions, gameover, x1, y1,e, ee,sky;
     var speed = 4;
     var level = 2;
 
@@ -37,7 +38,12 @@
 
       //setting up assets
       a = g.sound("ga-master/tutorials/sounds/explosion.mp3");
-
+      sky = g.tilingSprite(
+    g.canvas.width, 
+    g.canvas.height,
+    "ga-master/examples/images/sky.jpg"
+  );
+  
 
       //make a game scene
       gameScene = g.group();
@@ -115,6 +121,8 @@
 
     function play() {
       g.move(b);
+     //sky.tileX -= 1;
+     sky.tileY -= 1;
       gameover = g.contain(b, g.stage.localBounds);
       if (gameover === "top" || gameover === "bottom" || gameover === "right" || gameover === "left" || level == 6) {
         if (level == 6) {
