@@ -13,7 +13,8 @@
       1000, 512, setup,
       [
         "ga-master/tutorials/sounds/explosion.mp3",
-        "ga-master/examples/images/sky.jpg"
+        "ga-master/examples/images/sky.jpg",
+        "ga-master/examples/images/circle1.png"
       ]
     );
 
@@ -21,9 +22,10 @@
     g.start();
 
     //declare all variables
-    var a, b, c, message, collisions, gameover, x1, y1,e, ee,sky;
+    var a, b, c, message, collisions, gameover, x1, y1, e, ee, sky;
     var speed = 4;
     var level = 2;
+    var reset = g.keyboard(114);
 
 
 
@@ -39,11 +41,11 @@
       //setting up assets
       a = g.sound("ga-master/tutorials/sounds/explosion.mp3");
       sky = g.tilingSprite(
-    g.canvas.width, 
-    g.canvas.height,
-    "ga-master/examples/images/sky.jpg"
-  );
-  
+        g.canvas.width,
+        g.canvas.height,
+        "ga-master/examples/images/sky.jpg"
+      );
+
 
       //make a game scene
       gameScene = g.group();
@@ -73,8 +75,8 @@
 
       gameScene.addChild(c);
       //text sprite
-      e=g.text("l","20px Futura", "#3ffc00", (g.canvas.width-240),10)
-      ee=g.text("/","15px Futura", "#3ffc00", (g.canvas.width-275),10)
+      e = g.text("l", "20px Futura", "#3ffc00", (g.canvas.width - 240), 10)
+      ee = g.text("/", "15px Futura", "#3ffc00", (g.canvas.width - 275), 10)
 
       //end screen
       message = g.text("Bas kardo! Kitna khaoge? -_-", "20px Futura", "#3ffc00", 20, 20);
@@ -121,8 +123,8 @@
 
     function play() {
       g.move(b);
-     //sky.tileX -= 1;
-     sky.tileY -= 1;
+      //sky.tileX -= 1;
+      sky.tileY -= 1;
       gameover = g.contain(b, g.stage.localBounds);
       if (gameover === "top" || gameover === "bottom" || gameover === "right" || gameover === "left" || level == 6) {
         if (level == 6) {
@@ -143,8 +145,27 @@
       if (collision) {
         a.play();
         c.number += 1
-        e.content+="l"
-        ee.content=((c.number/40)*100)+"%"
+        e.content += "l"
+        ee.content = ((c.number / 40) * 100) + "%"
+        //particle effect...
+        g.particleEffect(
+          (c.x), //start x position
+          (c.y), //start y position
+          function () { //Particle function
+            return g.sprite( "ga-master/examples/images/circle1.png");
+          },
+          20, //Number of particles
+          0, //Gravity
+          true, //Random spacing
+          0, 6.28, //Min/max angle
+          12, 24, //Min/max size
+          1, 4, //Min/max speed
+          0.005, 0.01, //Min/max scale speed
+          0.005, 0.01, //Min/max alpha speed
+          0.05, 0.1 //Min/max rotation speed
+        );
+
+        //end
         console.log(c.number)
         do {
           x1 = g.randomInt(0, g.canvas.width - c.width)
@@ -178,8 +199,8 @@
         c.number = 0
         b.vx = 0
         b.vy = 0
-        e.content=" "
-        ee.content=" "
+        e.content = " "
+        ee.content = " "
         b.y = g.canvas.height / 2 - b.halfHeight;
         g.state = play;
       }
