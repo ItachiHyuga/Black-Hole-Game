@@ -150,12 +150,12 @@
       sky.tileY -= 1;
       particleStream.play();
       gameover = g.contain(b, g.stage.localBounds);
-      if (gameover === "top" || gameover === "bottom" || gameover === "right" || gameover === "left" || level == 6) {
-        if (level == 6) {
+      if (gameover === "top" || gameover === "bottom" || gameover === "right" || gameover === "left" || level == 10) {
+        if (level == 10) {
           message.content = "You won! But at what cost?";
           g.state = end;
         } else {
-          message.content = "You lost!";
+          message.content = "You lost! Press space to try again.";
           g.state = end;
         }
 
@@ -235,6 +235,22 @@
       particleStream.stop();
       gameScene.visible = false;
       gameOverScene.visible = true;
+      if (g.key.space.isDown) {
+        
+        gameScene.visible = true;
+        gameOverScene.visible = false;
+        
+        b.width = 40
+        b.height = 40
+        b.x = 50;
+        c.number = 0
+        b.vx = 0
+        b.vy = 0
+        e.content = " "
+        ee.content = " "
+        b.y = g.canvas.height / 2 - b.halfHeight;
+        g.state = play;
+      }
     }
   </script>
 </body>
