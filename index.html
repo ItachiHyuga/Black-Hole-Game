@@ -6,10 +6,10 @@
 <script src="/ga-master/ga.js"></script>
 <script src="/ga-master/plugins.js"></script>
 <script>
-
+document.body.style.backgroundColor = "black"; 
 //All of your game code will go here
 var g = ga(
-  512, 512, setup,
+  1000, 512, setup,
   [
     "ga-master/tutorials/sounds/explosion.mp3"
   ]
@@ -25,8 +25,8 @@ var a,b,c,message,collisions,gameover,x1,y1;
 function setup(){
 
     //game board
-    g.canvas.style.border = "1px #211814 solid";
-g.backgroundColor = "yellow";
+    g.canvas.style.border = "3px #3ffc00 solid";
+g.backgroundColor = "black";
 
 //setting up assets
 a = g.sound("ga-master/tutorials/sounds/explosion.mp3");
@@ -40,13 +40,14 @@ gameScene = g.group();
 //player sprite
  b = g.rectangle(
   40, 40,
-  "orange");
+  "black",
+  "#3ffc00", 5);
     b.x=50;
     b.y=g.canvas.height / 2 - b.halfHeight;
     gameScene.addChild(b);
 
 //food sprite
-c=g.circle(40,"blue")
+c=g.circle(40,"#3ffc00")
 do{
 x1=g.randomInt(0,g.canvas.width - c.width)
 y1=g.randomInt(0,g.canvas.height - c.height)
@@ -60,7 +61,7 @@ c.number=1;
 gameScene.addChild(c);
 
 //end screen
-message = g.text("Bas kardo! Kitna khaoge? -_-", "20px Futura", "black", 20, 20);
+message = g.text("Bas kardo! Kitna khaoge? -_-", "20px Futura", "#3ffc00", 20, 20);
 message.x = 120;
 message.y = g.canvas.height / 2 - 64;
 
@@ -105,7 +106,7 @@ function play() {
     gameover=g.contain(b, g.stage.localBounds);
     if (gameover === "top" || gameover === "bottom"|| gameover === "right"|| gameover === "left") {
         g.state = end;
-        message.content = "You lost nooooooooooooob!";
+        message.content = "You lost!";
        
 }
 
@@ -127,9 +128,10 @@ c.x=x1
 c.y=y1
         b.width+=10
         b.height+=10
+        
     }
     else{
-        g.backgroundColor = "yellow";
+       
     }
 
 }
