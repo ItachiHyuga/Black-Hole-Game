@@ -117,7 +117,7 @@
       g.move(b);
       gameover = g.contain(b, g.stage.localBounds);
       if (gameover === "top" || gameover === "bottom" || gameover === "right" || gameover === "left" || level == 6) {
-        if (level == 3) {
+        if (level == 6) {
           message.content = "You won! But at what cost?";
           g.state = end;
         } else {
@@ -157,7 +157,7 @@
 
 
       gameScene.visible = false;
-      message.content = "There are more universes to conquer. Onto level " + level;
+      message.content = "There are more universes to conquer. Press space for level " + level;
       gameOverScene.visible = true;
       if (g.key.space.isDown) {
         level += 1
