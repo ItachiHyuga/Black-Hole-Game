@@ -25,7 +25,7 @@
     var a, b, c, message, collisions, gameover, x1, y1, e, ee, sky,particleStream;
     var speed = 4;
     var level = 2;
-    var reset = g.keyboard(114);
+    var reset2 = g.keyboard(114);
 
 
 
@@ -117,15 +117,17 @@
       g.key.space.press = function () {
         //do nothing
       };
-
+      reset2.press=function(){
+        console.log("Hello")
+      }
 
       //particle stream
       particleStream = g.emitter(
     100,                                           //The interval
     function(){
       return g.particleEffect(                     //The particle function
-        b.x+(b.width/2),                               //x position
-        b.y+(b.height/2),                               //y position
+        b.x+g.randomInt(0,(b.width)),                               //x position
+        b.y+g.randomInt(0,(b.height)),                               //y position
         function(){                                //Particle sprite
           return g.sprite( "ga-master/examples/images/circle1.png");
         }, 
@@ -133,7 +135,7 @@
         0,                                       //Gravity
         false,                                     //Random spacing
         3.14, 6.28,                                //Min/max angle
-        b.height/20, b.height/5,                                    //Min/max size
+        b.height/25, b.height/15,                                    //Min/max size
         2, 5                                       //Min/max speed
       );
     }
@@ -202,11 +204,12 @@
 
       }
 
+      
     }
 
     function next() {
 
-
+      particleStream.stop();
       gameScene.visible = false;
       message.content = "There are more universes to conquer. Press space for level " + level;
       gameOverScene.visible = true;
