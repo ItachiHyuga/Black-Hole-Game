@@ -1,145 +1,179 @@
 <!doctype html>
 <meta charset="utf-8">
 <title>Fight!</title>
+
 <body>
-<!-- Import the Ga game engine files -->
-<script src="/ga-master/ga.js"></script>
-<script src="/ga-master/plugins.js"></script>
-<script>
-document.body.style.backgroundColor = "black"; 
-//All of your game code will go here
-var g = ga(
-  1000, 512, setup,
-  [
-    "ga-master/tutorials/sounds/explosion.mp3"
-  ]
-);
+  <!-- Import the Ga game engine files -->
+  <script src="/ga-master/ga.js"></script>
+  <script src="/ga-master/plugins.js"></script>
+  <script>
+    document.body.style.backgroundColor = "black";
+    //All of your game code will go here
+    var g = ga(
+      1000, 512, setup,
+      [
+        "ga-master/tutorials/sounds/explosion.mp3"
+      ]
+    );
 
-//Start the Ga engine.
-g.start();
+    //Start the Ga engine.
+    g.start();
 
-//declare all variables
-var a,b,c,message,collisions,gameover,x1,y1;
-
-//setup 
-function setup(){
-
-    //game board
-    g.canvas.style.border = "3px #3ffc00 solid";
-g.backgroundColor = "black";
-
-//setting up assets
-a = g.sound("ga-master/tutorials/sounds/explosion.mp3");
-
-
-//make a game scene
-gameScene = g.group();
-
-//make sprites
-
-//player sprite
- b = g.rectangle(
-  40, 40,
-  "black",
-  "#3ffc00", 5);
-    b.x=50;
-    b.y=g.canvas.height / 2 - b.halfHeight;
-    gameScene.addChild(b);
-
-//food sprite
-c=g.circle(40,"#3ffc00")
-do{
-x1=g.randomInt(0,g.canvas.width - c.width)
-y1=g.randomInt(0,g.canvas.height - c.height)
-}while(  x1>(b.x+c.width) & x1<(b.x+b.width) || y1>(b.y+b.height) & y1<(b.y+c.height)  )
-
-c.x=x1
-c.y=y1
-c.type=1;
-c.number=1;
-
-gameScene.addChild(c);
-
-//end screen
-message = g.text("Bas kardo! Kitna khaoge? -_-", "20px Futura", "#3ffc00", 20, 20);
-message.x = 120;
-message.y = g.canvas.height / 2 - 64;
-
-//end scene
-gameOverScene = g.group(message);
-gameOverScene.visible = false;
-//g.fourKeyController(b, 5, 38, 39, 40, 37);
+    //declare all variables
+    var a, b, c, message, collisions, gameover, x1, y1;
+    var speed = 4;
+    var level = 2;
 
 
 
-  //You can also do it the long way, like this:
-  
-  //Left arrow key `press` method
-  g.key.leftArrow.press = function() {
-    //Change the b's velocity when the key is pressed
-    b.vx = -4;
-    b.vy = 0;
-  };
-  //Left arrow key `release` method
- 
-  g.key.upArrow.press = function() {
-    b.vy = -4;
-    b.vx = 0;
-  };
-  
-  g.key.rightArrow.press = function() {
-    b.vx = 4;
-    b.vy = 0;
-  };
-  
-  g.key.downArrow.press = function() {
-    b.vy = 4;
-    b.vx = 0;
-  };
-  
 
-g.state = play;
-}
 
-function play() {
-    g.move(b);
-    gameover=g.contain(b, g.stage.localBounds);
-    if (gameover === "top" || gameover === "bottom"|| gameover === "right"|| gameover === "left") {
-        g.state = end;
-        message.content = "You lost!";
-       
-}
+    //setup 
+    function setup() {
 
-    collision=g.hit(b,c)
-    if(c.number==40){
-        g.state = end;
-        message.content = "You won! But at what cost?";
+      //game board
+      g.canvas.style.border = "3px #3ffc00 solid";
+      g.backgroundColor = "black";
+
+      //setting up assets
+      a = g.sound("ga-master/tutorials/sounds/explosion.mp3");
+
+
+      //make a game scene
+      gameScene = g.group();
+
+      //make sprites
+
+      //player sprite
+      b = g.rectangle(
+        40, 40,
+        "black",
+        "#3ffc00", 5);
+      b.x = 50;
+      b.y = g.canvas.height / 2 - b.halfHeight;
+      gameScene.addChild(b);
+
+      //food sprite
+      c = g.circle(40, "#3ffc00")
+      do {
+        x1 = g.randomInt(0, g.canvas.width - c.width)
+        y1 = g.randomInt(0, g.canvas.height - c.height)
+      } while (x1 > (b.x + c.width) & x1 < (b.x + b.width) || y1 > (b.y + b.height) & y1 < (b.y + c.height))
+
+      c.x = x1
+      c.y = y1
+      c.type = 1;
+      c.number = 1;
+
+      gameScene.addChild(c);
+
+      //end screen
+      message = g.text("Bas kardo! Kitna khaoge? -_-", "20px Futura", "#3ffc00", 20, 20);
+      message.x = 120;
+      message.y = g.canvas.height / 2 - 64;
+
+      //end scene
+      gameOverScene = g.group(message);
+      gameOverScene.visible = false;
+      //g.fourKeyController(b, 5, 38, 39, 40, 37);
+
+
+
+      //You can also do it the long way, like this:
+
+      //Left arrow key `press` method
+      g.key.leftArrow.press = function () {
+        //Change the b's velocity when the key is pressed
+        b.vx = speed * (-1);
+        b.vy = 0;
+      };
+      //Left arrow key `release` method
+
+      g.key.upArrow.press = function () {
+        b.vy = speed * (-1);
+        b.vx = 0;
+      };
+
+      g.key.rightArrow.press = function () {
+        b.vx = speed;
+        b.vy = 0;
+      };
+
+      g.key.downArrow.press = function () {
+        b.vy = speed;
+        b.vx = 0;
+      };
+      g.key.space.press = function () {
+        //do nothing
+      };
+
+      g.state = play;
     }
-    if(collision){
+
+    function play() {
+      g.move(b);
+      gameover = g.contain(b, g.stage.localBounds);
+      if (gameover === "top" || gameover === "bottom" || gameover === "right" || gameover === "left" || level == 6) {
+        if (level == 3) {
+          message.content = "You won! But at what cost?";
+          g.state = end;
+        } else {
+          message.content = "You lost!";
+          g.state = end;
+        }
+
+      }
+
+      collision = g.hit(b, c)
+      if (c.number == 40) {
+        g.state = next;
+
+      }
+      if (collision) {
         a.play();
-        c.number+=1
-        
+        c.number += 1
+
         console.log(c.number)
-        do{
-x1=g.randomInt(0,g.canvas.width - c.width)
-y1=g.randomInt(0,g.canvas.height - c.height)
-}while(  x1>(b.x+c.width) & x1<(b.x+b.width) || y1>(b.y+b.height) & y1<(b.y+c.height)  )
-c.x=x1
-c.y=y1
-        b.width+=10
-        b.height+=10
-        
+        do {
+          x1 = g.randomInt(0, g.canvas.width - c.width)
+          y1 = g.randomInt(0, g.canvas.height - c.height)
+        } while (x1 > (b.x + c.width) & x1 < (b.x + b.width) || y1 > (b.y + b.height) & y1 < (b.y + c.height))
+        c.x = x1
+        c.y = y1
+        b.width += 10
+        b.height += 10
+
+      } else {
+
+      }
+
     }
-    else{
-       
+
+    function next() {
+
+
+      gameScene.visible = false;
+      message.content = "There are more universes to conquer. Onto level " + level;
+      gameOverScene.visible = true;
+      if (g.key.space.isDown) {
+        level += 1
+        gameScene.visible = true;
+        gameOverScene.visible = false;
+        speed += 2;
+        b.width = 40
+        b.height = 40
+        b.x = 50;
+        c.number = 0
+        b.vx = 0
+        b.vy = 0
+        b.y = g.canvas.height / 2 - b.halfHeight;
+        g.state = play;
+      }
     }
 
-}
-
-function end() {
-  gameScene.visible = false;
-  gameOverScene.visible = true;
-}
-
-</script>
+    function end() {
+      gameScene.visible = false;
+      gameOverScene.visible = true;
+    }
+  </script>
 </body>

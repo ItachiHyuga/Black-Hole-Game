@@ -25,11 +25,12 @@ g.start();
 //mode by pressing lowercase `x` (88) or uppercase `X` (120) on 
 //the keyboard. If you leave these arguments out, the default `esc`
 //key will do the trick.
-g.enableFullscreen(88, 120);
+
 
 //Declare any variables shared between functions
 var pointer, canvas, fairy, sky, blocks, 
     title, goButton, finish, dust, dustFrames;
+    var displaythis="hi";
 
 //The `setup` function will run only once.
 //Use it for initialization tasks
@@ -57,10 +58,11 @@ function setupTitleScreen() {
 
   //Center the play button
   g.stage.putCenter(goButton, 0, 150);
-
+  
   //Make the play button's `press` action
   //start the game when the button is pressed.
   goButton.release = function(){
+    displaythis="hello"
     g.state = setupGame;
   };
 
@@ -78,7 +80,7 @@ function playTitleScreen() {
 }
 
 function setupGame() {
-
+console.log(displaythis)
   //Make the title and play button invisible.
   title.visible = false;
   goButton.visible = false;
