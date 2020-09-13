@@ -10,7 +10,7 @@
     document.body.style.backgroundColor = "black";
     //All of your game code will go here
     var g = ga(
-      1000, 512, setup,
+      window.innerWidth-30, window.innerHeight-30, setup,
       [
         "ga-master/tutorials/sounds/explosion.mp3",
         "ga-master/examples/images/sky.jpg",
@@ -22,7 +22,7 @@
     g.start();
 
     //declare all variables
-    var a, b, c, message, collisions, gameover, x1, y1, e, ee, sky;
+    var a, b, c, message, collisions, gameover, x1, y1, e, ee, sky,particleStream;
     var speed = 4;
     var level = 2;
     var reset = g.keyboard(114);
@@ -118,6 +118,27 @@
         //do nothing
       };
 
+
+      //particle stream
+      particleStream = g.emitter(
+    100,                                           //The interval
+    function(){
+      return g.particleEffect(                     //The particle function
+        b.x+(b.width/2),                               //x position
+        b.y+(b.height/2),                               //y position
+        function(){                                //Particle sprite
+          return g.sprite( "ga-master/examples/images/circle1.png");
+        }, 
+        c.number,                                        //Number of particles
+        0,                                       //Gravity
+        false,                                     //Random spacing
+        3.14, 6.28,                                //Min/max angle
+        b.height/20, b.height/5,                                    //Min/max size
+        2, 5                                       //Min/max speed
+      );
+    }
+  );
+
       g.state = play;
     }
 
@@ -125,6 +146,7 @@
       g.move(b);
       //sky.tileX -= 1;
       sky.tileY -= 1;
+      particleStream.play();
       gameover = g.contain(b, g.stage.localBounds);
       if (gameover === "top" || gameover === "bottom" || gameover === "right" || gameover === "left" || level == 6) {
         if (level == 6) {
@@ -154,14 +176,14 @@
           function () { //Particle function
             return g.sprite( "ga-master/examples/images/circle1.png");
           },
-          20, //Number of particles
+          50, //Number of particles
           0, //Gravity
           true, //Random spacing
           0, 6.28, //Min/max angle
           12, 24, //Min/max size
-          1, 4, //Min/max speed
-          0.005, 0.01, //Min/max scale speed
-          0.005, 0.01, //Min/max alpha speed
+          0.5, 7, //Min/max speed
+          0.009, 0.001, //Min/max scale speed
+          0.009, 0.001, //Min/max alpha speed
           0.05, 0.1 //Min/max rotation speed
         );
 
@@ -207,6 +229,7 @@
     }
 
     function end() {
+      particleStream.stop();
       gameScene.visible = false;
       gameOverScene.visible = true;
     }
